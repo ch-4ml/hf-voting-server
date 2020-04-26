@@ -3,8 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
-const fs = require('fs')
-const zip = new require('node-zip')();
+const fs = require('fs');
+const nodeZip = require('node-zip');
 const register = require('../registerUser');
 
 router.get('/', (req, res) => {
@@ -13,11 +13,15 @@ router.get('/', (req, res) => {
 
 router.get('/register', async (req, res) => {
     try {
-        const id = await crypto.randomBytes(32).toString('hex');
+        const id = await crypto.randomBytes(32).toString('hex')
         await register(id);
         
         // Make wallet file
         const files = fs.readdirSync(`/tmp/wallet/${id}`, { withFileTypes: true });
+
+        // Generate zip object
+        const zip = new nodeZip();
+
         for(let i = 0; i < files.length; i++) {
             zip.file(`${files[i]}`, fs.readFileSync(`/tmp/wallet/${id}/${files[i]}`));
         }
@@ -29,10 +33,9 @@ router.get('/register', async (req, res) => {
 
         // Remove wallet file
         for(let i = 0; i < files.length; i++) {
-            fs.unlinkSync(`/tmp/wallet/${id}/${files[i]}`);
+            // fs.unlinkSync(`/tmp/wallet/${id}/${files[i]}`);
         }
-        fs.rmdirSync(`/tmp/wallet/${id}`, { recursive: true });
-
+        // fs.rmdirSync(`/tmp/wallet/${id}`, { recursive: true });
 
     } catch(err) {
         console.log(err);
