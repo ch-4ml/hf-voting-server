@@ -15,10 +15,6 @@ module.exports = async (id) => {
         const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = new FileSystemWallet(walletPath);
 
-        // Temporary Wallet
-        const tempWalletPath = path.join('/tmp', 'wallet');
-        const tempWallet = new FileSystemWallet(tempWalletPath);
-
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
@@ -48,11 +44,11 @@ module.exports = async (id) => {
         const secret = await ca.register({ affiliation: 'org1.department1', enrollmentID: id, role: 'client' }, adminIdentity);
         const enrollment = await ca.enroll({ enrollmentID: id, enrollmentSecret: secret });
         const userIdentity = X509WalletMixin.createIdentity('Org1MSP', enrollment.certificate, enrollment.key.toBytes());
-        await tempWallet.import(id, userIdentity);
+        await wallet.import(id, userIdentity);
         console.log(`Successfully registered and enrolled admin user ${id} and imported it into the wallet`);
 
     } catch (error) {
         console.error(`Failed to register user ${id}: ${error}`);
-        process.exit(1);
+        // process.exit(1);
     }
 }
