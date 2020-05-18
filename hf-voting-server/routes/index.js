@@ -58,10 +58,10 @@ router.get('/register', async (req, res) => {
 
 router.post('/query', wallet.single('file'), async (req, res) => {
     // const { file: { path }} = req;
-    const filename = req.file.filename;
-    const id = filename.split('.')[0];
-    fs.createReadStream(`${req.file.path}`).pipe(unzip.Extract({ path: `${walletPath}/${id}` }));
     try {
+        const filename = req.file.filename;
+        const id = filename.split('.')[0];
+        fs.createReadStream(`${req.file.path}`).pipe(unzip.Extract({ path: `${walletPath}/${id}` }));
         const result = await query(id);
         console.log(result);
         res.json(JSON.parse(result));
