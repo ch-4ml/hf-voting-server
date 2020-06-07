@@ -249,7 +249,7 @@ func setCandidate(APIstub shim.ChaincodeStubInterface, args []string) (string, e
 
 	// 후보자 이름 중복 검사
 	getCandidateByNameAndVoteIDResult, _ := getCandidateByNameAndVoteID(APIstub, []string{ args[1], args[2] })
-	if []byte(getCandidateByNameAndVoteIDResult) != nil {
+	if getCandidateByNameAndVoteIDResult != "" {
 		return "", fmt.Errorf("Already exist: Candidate name")
 	}
 
