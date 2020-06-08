@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const voteModel = require('../model/vote');
 
-router.get('/', async(req, res) => {
+router.post('/', async(req, res) => {
     const id = req.body.id;
     let data;
     try {
@@ -17,7 +17,7 @@ router.get('/', async(req, res) => {
     }
 });
 
-router.get('/all', async(req, res) => {
+router.get('/', async(req, res) => {
     let data;
     try {
         const result = await voteModel.getAllVotes();
