@@ -11,7 +11,7 @@ const ccp = JSON.parse(ccpJSON);
 const walletPath = path.join(process.cwd(), 'wallet');
 
 class Candidate {
-    setCandidate(name, voteID) {
+    async setCandidate(name, voteID) {
             try {
                 const id = await crypto.randomBytes(32).toString('hex');
                 console.log(`Set Candidate: ${id}`);
@@ -52,7 +52,7 @@ class Candidate {
             }
     }
 
-    getCandidate(id) {
+    async getCandidate(id) {
         try {
             const wallet = new FileSystemWallet(walletPath);
 
@@ -86,7 +86,7 @@ class Candidate {
         }
     }
 
-    getCandidatesByVoteID(id, voteID) {
+    async getCandidatesByVoteID(id, voteID) {
         try {
             const wallet = new FileSystemWallet(walletPath);
 

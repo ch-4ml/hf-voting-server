@@ -11,7 +11,7 @@ const ccp = JSON.parse(ccpJSON);
 const walletPath = path.join(process.cwd(), 'wallet');
 
 class Electorate {
-    setElectorate(id, voteID) {
+    async setElectorate(id, voteID) {
         try {
             const wallet = new FileSystemWallet(walletPath);
 
@@ -50,7 +50,7 @@ class Electorate {
         }
     }
 
-    getElectorate(id) {
+    async getElectorate(id) {
         try {
             const wallet = new FileSystemWallet(walletPath);
 
@@ -85,7 +85,7 @@ class Electorate {
         }
     }
 
-    isVoted(id) {
+    async isVoted(id) {
         try {
             const wallet = new FileSystemWallet(walletPath);
 
